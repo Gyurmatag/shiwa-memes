@@ -11,9 +11,7 @@ export default async function NewMeme() {
 
   return (
     <main>
-      <h1 className="text-2xl font-bold">
-        Please add a meme, {session?.user?.name}!
-      </h1>
+      <h1 className="text-xl font-bold">Create a Meme!</h1>
       <AddMeme />
     </main>
   )
