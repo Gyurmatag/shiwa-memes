@@ -60,6 +60,7 @@ model Meme {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   title     String
+  imgUrl    String
   userId    String
   user      User      @relation(fields: [userId], references: [id])
   likes     Like[]

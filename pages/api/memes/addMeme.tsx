@@ -14,6 +14,7 @@ export default async function handler(
     }
 
     const title: string = req.body.title
+    const imgUrl: string = req.body.imgUrl
 
     const prismaUser = await prisma.user.findUnique({
       where: { email: session.user?.email || '' },
@@ -31,10 +32,17 @@ export default async function handler(
         .json({ message: 'Please write a shorter title for your meme!' })
     }
 
+    if (!imgUrl.length) {
+      return res
+        .status(403)
+        .json({ message: 'Please do not leave the image URL empty' })
+    }
+
     try {
       const result = await prisma.meme.create({
         data: {
           title: title as string,
+          imgUrl: imgUrl as string,
           userId: prismaUser?.id as string,
         },
       })
