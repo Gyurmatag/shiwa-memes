@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 
 type User = {
@@ -17,13 +16,13 @@ export default function Logged({ image }: User) {
       >
         New Meme
       </Link>
-      <Link href={'/dashboard'}>
+      <Link href={'/'}>
         <Image
           width="64"
           height="64"
           src={image}
           className="w-14 rounded-full"
-          alt=""
+          alt="profile picture"
           priority
         ></Image>
       </Link>

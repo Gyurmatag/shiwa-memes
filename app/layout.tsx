@@ -1,8 +1,9 @@
 import './globals.css'
-import Nav from './auth/Nav'
-import { Roboto } from '@next/font/google'
-import QueryWrapper from './auth/QueryWrapper'
-import { ReactNode } from 'react'
+import Nav from './Nav'
+import { Roboto } from 'next/font/google'
+import QueryWrapper from './QueryWrapper'
+import React, { ReactNode } from 'react'
+import AuthContext from '@/app/auth/AuthContext'
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -24,9 +25,11 @@ export default function RootLayout({ children }: Props) {
     <html lang="en">
       <body className={`mx-4 md:mx-48 xl:mx-96 ${roboto.variable} bg-gray-200`}>
         <QueryWrapper>
-          {/* @ts-expect-error Server Component */}
-          <Nav />
-          {children}
+          <AuthContext>
+            {/* @ts-expect-error Server Component */}
+            <Nav />
+            {children}
+          </AuthContext>
         </QueryWrapper>
       </body>
     </html>

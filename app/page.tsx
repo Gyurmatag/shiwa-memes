@@ -1,8 +1,9 @@
 'use client'
 import axios from 'axios'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import Meme from '@/app/components/Meme'
 import { MemeType } from '@/app/types/Meme'
+import toast from 'react-hot-toast'
 
 const allMemes = async () => {
   const response = await axios.get('/api/memes/getMemes')
@@ -10,6 +11,20 @@ const allMemes = async () => {
 }
 
 export default function Home() {
+  const { mutate } = useMutation(
+    async (id: string) =>
+      await axios.post('/api/memes/addLike', { memeId: id }),
+    {
+      onError: (error) => {
+        toast.error('Error liking the post')
+      },
+    },
+  )
+
+  const likeMeme = (memeId: string) => {
+    mutate(memeId)
+  }
+
   const { data, error, isLoading } = useQuery<MemeType[]>({
     queryFn: allMemes,
     queryKey: ['memes'],
@@ -24,6 +39,8 @@ export default function Home() {
           creatorName={meme.user.name}
           title={meme.title}
           imgUrl={meme.imgUrl}
+          likes={meme.likes}
+          likeMemeExternal={() => likeMeme(meme.id)}
         />
       ))}
     </main>

@@ -10,6 +10,11 @@ export default async function handler(
       const data = await prisma.meme.findMany({
         include: {
           user: true,
+          likes: {
+            include: {
+              user: true,
+            },
+          },
           comments: true,
         },
         orderBy: {

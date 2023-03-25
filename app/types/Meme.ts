@@ -1,3 +1,5 @@
+import { LikeType } from '@/app/types/Like'
+
 export type MemeType = {
   id: string
   title: string
@@ -9,6 +11,7 @@ export type MemeType = {
     image: string
     name: string
   }
+  likes: LikeType[]
   comments: {
     createdAt?: string
     id: string
