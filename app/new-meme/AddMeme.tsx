@@ -7,14 +7,19 @@ import toast from 'react-hot-toast'
 
 export default function AddMeme() {
   const [title, setTitle] = useState('')
-  const [imgUrl, setImgUrl] = useState('')
+  const [imgFile, setImgFile] = useState<File | null>(null)
+  const [imgPreview, setImgPreview] = useState<string | null>(null)
   const [isDisabled, setIsDisabled] = useState(false)
   const queryClient = useQueryClient()
   let toastMemeId: string
 
   const { mutate } = useMutation(
-    async ({ title, imgUrl }: { title: string; imgUrl: string }) =>
-      await axios.post('/api/memes/addMeme', { title, imgUrl }),
+    async ({ title, imgFile }: { title: string; imgFile: File }) => {
+      const formData = new FormData()
+      formData.append('title', title)
+      formData.append('imgFile', imgFile)
+      return await axios.post('/api/memes/addMeme', formData)
+    },
     {
       onError: (error) => {
         if (error instanceof AxiosError) {
@@ -25,7 +30,8 @@ export default function AddMeme() {
         toast.success('Meme has been made', { id: toastMemeId })
         queryClient.invalidateQueries(['memes'])
         setTitle('')
-        setImgUrl('')
+        setImgFile(null)
+        setImgPreview(null)
       },
       onSettled: () => {
         setIsDisabled(false)
@@ -34,9 +40,26 @@ export default function AddMeme() {
   )
 
   const submitMeme = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsDisabled(true)
-    mutate({ title, imgUrl })
+    if (title && imgFile) {
+      e.preventDefault()
+      setIsDisabled(true)
+      mutate({ title, imgFile })
+    }
+  }
+
+  const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setImgFile(file)
+      const reader = new FileReader()
+      reader.onload = () => {
+        setImgPreview(reader.result?.toString() || null)
+      }
+      reader.readAsDataURL(file)
+    } else {
+      setImgFile(null)
+      setImgPreview(null)
+    }
   }
 
   return (
@@ -50,14 +73,26 @@ export default function AddMeme() {
           placeholder="Meme Title"
           className="my-2 rounded-md bg-gray-200 p-4 text-lg"
         />
-        <input
-          type="text"
-          onChange={(e) => setImgUrl(e.target.value)}
-          name="imgUrl"
-          value={imgUrl}
-          placeholder="Image Url"
-          className="my-2 rounded-md bg-gray-200 p-4 text-lg"
-        />
+        <div className="my-2">
+          <input
+            type="file"
+            onChange={handleImgChange}
+            name="image"
+            accept="image/*"
+            className="hidden"
+            id="image-upload"
+          />
+          <label
+            htmlFor="image-upload"
+            className="flex cursor-pointer items-center justify-center rounded-md bg-gray-200 p-4 text-lg"
+          >
+            {imgFile ? (
+              <img src={imgPreview || ''} alt="Preview" className="mr-2 h-52" />
+            ) : (
+              'Browse'
+            )}
+          </label>
+        </div>
       </div>
       <div className="flex">
         <button
