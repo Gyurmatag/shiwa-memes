@@ -1,7 +1,7 @@
 'use client'
 import axios from 'axios'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import Meme from '@/app/components/Meme'
+import Meme from '@/app/meme/Meme'
 import { MemeType } from '@/app/types/Meme'
 import toast from 'react-hot-toast'
 
