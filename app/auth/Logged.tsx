@@ -24,7 +24,7 @@ export default function Logged({ image }: User) {
           className="w-14 rounded-full"
           alt="profile picture"
           priority
-        ></Image>
+        />
       </Link>
     </li>
   )

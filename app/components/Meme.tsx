@@ -45,9 +45,9 @@ export default function Meme({
   }
 
   const likeIcon = isLiked ? (
-    <AiFillHeart size="25" className="cursor-pointer" />
+    <AiFillHeart size="25" />
   ) : (
-    <AiOutlineHeart size="25" className="cursor-pointer" />
+    <AiOutlineHeart size="25" />
   )
 
   return (

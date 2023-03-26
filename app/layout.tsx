@@ -23,7 +23,7 @@ interface Props {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
-      <body className={`mx-4 md:mx-48 xl:mx-96 ${roboto.variable} bg-gray-200`}>
+      <body className={`m-auto max-w-3xl px-4 ${roboto.variable} bg-gray-200`}>
         <QueryWrapper>
           <AuthContext>
             {/* @ts-expect-error Server Component */}

@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
+import { IoIosAttach } from 'react-icons/io'
 
 export default function AddMeme() {
   const [title, setTitle] = useState('')
@@ -27,7 +29,7 @@ export default function AddMeme() {
         }
       },
       onSuccess: (data) => {
-        toast.success('Meme has been made', { id: toastMemeId })
+        toast.success('Meme created', { id: toastMemeId })
         queryClient.invalidateQueries(['memes'])
         setTitle('')
         setImgFile(null)
@@ -40,8 +42,8 @@ export default function AddMeme() {
   )
 
   const submitMeme = async (e: React.FormEvent) => {
+    e.preventDefault()
     if (title && imgFile) {
-      e.preventDefault()
       setIsDisabled(true)
       mutate({ title, imgFile })
     }
@@ -63,7 +65,10 @@ export default function AddMeme() {
   }
 
   return (
-    <form onSubmit={submitMeme} className="my-8 rounded-md bg-white p-8">
+    <form
+      onSubmit={submitMeme}
+      className="my-8 items-center justify-center rounded-md bg-white p-8"
+    >
       <div className="my-4 flex flex-col">
         <input
           type="text"
@@ -86,15 +91,24 @@ export default function AddMeme() {
             htmlFor="image-upload"
             className="flex cursor-pointer items-center justify-center rounded-md bg-gray-200 p-4 text-lg"
           >
-            {imgFile ? (
-              <img src={imgPreview || ''} alt="Preview" className="mr-2 h-52" />
+            {imgFile && imgPreview ? (
+              <Image
+                src={imgPreview || ''}
+                alt="Preview"
+                width="300"
+                height="300"
+                className="mr-2"
+              />
             ) : (
-              'Browse'
+              <>
+                <IoIosAttach size="20" />
+                <span>Browse</span>
+              </>
             )}
           </label>
         </div>
       </div>
-      <div className="flex">
+      <div className="flex justify-center">
         <button
           disabled={isDisabled}
           className="rounded-xl bg-teal-600 py-2 px-6 text-sm text-white disabled:opacity-25"
