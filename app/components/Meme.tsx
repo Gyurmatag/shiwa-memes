@@ -1,8 +1,9 @@
 'use client'
+
 import Image from 'next/image'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { LikeType } from '@/app/types/Like'
-import { useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
 type MemeProps = {
@@ -34,14 +35,18 @@ export default function Meme({
   }, [likes, session])
 
   const likeMeme = () => {
-    if (isLiked) {
-      setIsLiked(false)
-      setLikeCount(likeCount - 1)
+    if (session?.user) {
+      if (isLiked) {
+        setIsLiked(false)
+        setLikeCount(likeCount - 1)
+      } else {
+        setIsLiked(true)
+        setLikeCount(likeCount + 1)
+      }
+      likeMemeExternal()
     } else {
-      setIsLiked(true)
-      setLikeCount(likeCount + 1)
+      signIn()
     }
-    likeMemeExternal()
   }
 
   const likeIcon = isLiked ? (
