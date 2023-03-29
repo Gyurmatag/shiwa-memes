@@ -1,8 +1,8 @@
 import { getProviders } from 'next-auth/react'
 import SignInButton from '@/app/sign-in/SignInButton'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { redirect } from 'next/navigation'
+import { authOptions } from '@/pages/api/auth/[...nextauth]'
 
 export default async function SignIn() {
   const providers = await getProviders()

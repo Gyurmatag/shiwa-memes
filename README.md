@@ -1,4 +1,4 @@
-# **Shiwa Memes**
+# **ShiwaMemes**
 
 ## Local development configuration
 

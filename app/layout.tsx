@@ -14,6 +14,9 @@ const roboto = Roboto({
 export const metadata = {
   title: 'ShiwaMemes',
   description: 'The storage of funny pics from the ShiwaForce community',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 
 interface Props {
