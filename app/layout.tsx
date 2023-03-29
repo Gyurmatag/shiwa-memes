@@ -4,6 +4,7 @@ import { Roboto } from 'next/font/google'
 import QueryWrapper from './QueryWrapper'
 import React, { ReactNode } from 'react'
 import AuthContext from '@/app/auth/AuthContext'
+import { Analytics } from '@vercel/analytics/react'
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: Props) {
             {children}
           </AuthContext>
         </QueryWrapper>
+        <Analytics />
       </body>
     </html>
   )
