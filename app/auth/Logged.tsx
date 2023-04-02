@@ -13,7 +13,7 @@ export default function Logged({ image }: User) {
     <li className="flex items-center gap-8">
       <Link
         href={'/new-meme'}
-        className="flex space-x-1.5 rounded-md border-2 border-shiwa-purple px-6 py-2 text-sm font-bold text-shiwa-purple"
+        className="flex space-x-1.5 rounded-md border-2 border-shiwa-purple px-6 py-2 text-sm font-bold text-shiwa-purple hover:bg-gray-100"
       >
         <HiOutlinePlus size="20" />
         <span>New Meme</span>
