@@ -7,7 +7,7 @@
 ```javascript
    DATABASE_URL="connection_url"
 ```
-3. Make a .env.local file with your Google API credentials, Cloudinary API credentials and AUTH_SECRET. The file shoud look like this:
+3. Make a .env.local file with your Google API credentials, [Cloudinary](https://cloudinary.com/)  API credentials and AUTH_SECRET. The file shoud look like this:
 ```javascript
    GOOGLE_CLIENT_ID="google_client_id"
    GOOGLE_CLIENT_SECRET="google_client_secret"
