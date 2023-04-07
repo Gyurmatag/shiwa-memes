@@ -2,14 +2,12 @@ import Meme from '@/app/meme/Meme'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { MemeType } from '@/app/types/Meme'
+import { getBaseUrl } from '@/utils/getBaseUrl'
 
 const allMemes = async () => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/memes/getMemes`,
-    {
-      cache: 'no-store',
-    },
-  )
+  const response = await fetch(`${getBaseUrl()}/api/memes/getMemes`, {
+    cache: 'no-store',
+  })
   return response.json()
 }
 

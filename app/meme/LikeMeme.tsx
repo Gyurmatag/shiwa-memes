@@ -5,6 +5,7 @@ import { LikeType } from '@/app/types/Like'
 import { signIn } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { getBaseUrl } from '@/utils/getBaseUrl'
 
 type LikeMemeProps = {
   memeId: string
@@ -13,16 +14,13 @@ type LikeMemeProps = {
 }
 
 const postLike = async (memeId: string) => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/memes/addLike`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ memeId }),
+  const response = await fetch(`${getBaseUrl()}/api/memes/addLike`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  )
+    body: JSON.stringify({ memeId }),
+  })
   return response.json()
 }
 
