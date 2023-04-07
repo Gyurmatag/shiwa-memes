@@ -9,6 +9,7 @@
 ```
 3. Make a `.env.local` file with your Google API credentials, [Cloudinary](https://cloudinary.com/)  API credentials and AUTH_SECRET. The file shoud look like this:
 ```javascript
+   BASE_URL=http://localhost:3000
    GOOGLE_CLIENT_ID="google_client_id"
    GOOGLE_CLIENT_SECRET="google_client_secret"
    CLOUDINARY_CLOUD_NAME="cloudinary_cloud_name"
