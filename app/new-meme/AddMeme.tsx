@@ -70,7 +70,7 @@ export default function AddMeme() {
   return (
     <form
       onSubmit={submitMeme}
-      className="my-8 items-center justify-center rounded-md bg-white p-8"
+      className="my-8 items-center justify-center rounded-md bg-gray-50 p-8 dark:bg-gray-700"
     >
       <div className="my-4 flex flex-col">
         <input
@@ -79,7 +79,7 @@ export default function AddMeme() {
           name="title"
           value={title}
           placeholder="Meme Title"
-          className="my-2 rounded-md bg-gray-200 p-4 text-lg"
+          className="my-2 rounded-md bg-gray-200 p-4 text-lg dark:bg-gray-500"
         />
         <div className="my-2">
           <input
@@ -92,7 +92,7 @@ export default function AddMeme() {
           />
           <label
             htmlFor="image-upload"
-            className="flex cursor-pointer items-center justify-center rounded-md bg-gray-200 p-4 text-lg hover:bg-gray-300"
+            className="flex cursor-pointer items-center justify-center rounded-md bg-gray-200 p-4 text-lg hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500"
           >
             {imgFile && imgPreview ? (
               <Image
@@ -114,7 +114,7 @@ export default function AddMeme() {
       <div className="flex justify-center">
         <button
           disabled={isDisabled}
-          className="rounded-xl bg-shiwa-purple py-2 px-6 text-sm text-white hover:opacity-90 disabled:opacity-25"
+          className="rounded-xl bg-shiwa-purple py-2 px-6 text-sm text-white hover:opacity-90 disabled:opacity-25 dark:bg-gray-500 dark:hover:opacity-80"
           type="submit"
         >
           Create meme

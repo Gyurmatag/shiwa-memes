@@ -18,7 +18,9 @@ export default async function Nav() {
             alt="Shiwa Logo"
             className="h-6 w-auto"
           />
-          <h1 className="text-lg font-bold">ShiwaMemes</h1>
+          <h1 className="text-lg font-bold text-gray-800 dark:text-gray-200">
+            ShiwaMemes
+          </h1>
         </div>
       </Link>
       <ul className="flex items-center gap-6">

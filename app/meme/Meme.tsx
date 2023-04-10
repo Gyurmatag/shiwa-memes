@@ -20,7 +20,7 @@ export default async function Meme({
   likes,
 }: MemeProps) {
   return (
-    <div className="my-8 rounded-lg bg-white p-8">
+    <div className="my-8 rounded-lg bg-gray-50 p-8 dark:bg-gray-700">
       <div className="flex justify-center gap-2">
         <h3 className="font-bold text-gray-700">{title}</h3>
       </div>
