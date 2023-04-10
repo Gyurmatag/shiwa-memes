@@ -63,7 +63,7 @@ export default function LikeMeme({ memeId, likes, user }: LikeMemeProps) {
   )
 
   return (
-    <div className="mb-5 flex justify-center space-x-2 text-gray-600">
+    <div className="mb-5 flex justify-center space-x-2 text-gray-600 dark:text-gray-200">
       <button onClick={likeMeme}>{likeIcon}</button>
       <span>{likeCount}</span>
     </div>
