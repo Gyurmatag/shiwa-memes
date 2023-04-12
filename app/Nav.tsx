@@ -3,21 +3,15 @@ import Login from './auth/Login'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import Logged from '@/app/auth/Logged'
-import Image from 'next/image'
+import Logo from '@/app/Logo'
 
 export default async function Nav() {
   const session = await getServerSession(authOptions)
   return (
     <nav className="flex items-center justify-between py-8">
       <Link href={'/'}>
-        <div className="flex space-x-2">
-          <Image
-            width="100"
-            height="100"
-            src="/logo.png"
-            alt="Shiwa Logo"
-            className="h-6 w-auto"
-          />
+        <div className="flex items-center space-x-2">
+          <Logo height={8} width={8} />
           <h1 className="text-lg font-bold text-gray-800 dark:text-gray-200">
             ShiwaMemes
           </h1>
