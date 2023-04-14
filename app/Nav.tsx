@@ -11,7 +11,7 @@ export default async function Nav() {
     <nav className="flex items-center justify-between py-8">
       <Link href={'/'}>
         <div className="flex items-center space-x-2">
-          <Logo height={8} width={8} />
+          <Logo height={40} width={40} />
           <h1 className="text-lg font-bold text-gray-800 dark:text-gray-200">
             ShiwaMemes
           </h1>

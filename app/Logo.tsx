@@ -6,7 +6,9 @@ type LogoProps = {
 export default function Logo({ height, width }: LogoProps) {
   return (
     <svg
-      className={`h-${height} w-${width} fill-gray-800 dark:fill-gray-100`}
+      className={`fill-gray-800 dark:fill-gray-100`}
+      width={height}
+      height={width}
       viewBox="0 0 219 218"
     >
       <path
