@@ -1,12 +1,35 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
-import axios, { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
 import { IoIosAttach } from 'react-icons/io'
 import { useRouter } from 'next/navigation'
+
+const postMeme = async ({
+  title,
+  imgFile,
+}: {
+  title: string
+  imgFile: File
+}) => {
+  const formData = new FormData()
+  formData.append('title', title)
+  formData.append('imgFile', imgFile)
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/memes/addMeme`,
+    {
+      method: 'POST',
+      body: formData,
+    },
+  )
+  if (response.ok) {
+    return response.json()
+  }
+  return response.json().then((text) => {
+    throw new Error(text.message)
+  })
+}
 
 export default function AddMeme() {
   const router = useRouter()
@@ -16,39 +39,25 @@ export default function AddMeme() {
   const [isDisabled, setIsDisabled] = useState(false)
   let toastMemeId: string
 
-  const { mutate } = useMutation(
-    async ({ title, imgFile }: { title: string; imgFile: File }) => {
-      const formData = new FormData()
-      formData.append('title', title)
-      formData.append('imgFile', imgFile)
-      return await axios.post('/api/memes/addMeme', formData)
-    },
-    {
-      onError: (error) => {
-        if (error instanceof AxiosError) {
-          toast.error(error?.response?.data.message, { id: toastMemeId })
-        }
-      },
-      onSuccess: (data) => {
-        toast.success('Meme created', { id: toastMemeId })
-        setTitle('')
-        setImgFile(null)
-        setImgPreview(null)
-      },
-      onSettled: () => {
-        setIsDisabled(false)
-      },
-    },
-  )
-
   const submitMeme = async (e: React.FormEvent) => {
     e.preventDefault()
     if (title && imgFile) {
       setIsDisabled(true)
-      mutate({ title, imgFile })
-      // TODO: workaround solution until the Next.js team doesn't handle server side caching well
-      // https://beta.nextjs.org/docs/routing/linking-and-navigating#invalidating-the-cache
-      router.refresh()
+      try {
+        await postMeme({ title, imgFile })
+        toast.success('Meme created', { id: toastMemeId })
+        setTitle('')
+        setImgFile(null)
+        setImgPreview(null)
+        // TODO: workaround solution until the Next.js team doesn't handle server side caching well
+        // https://beta.nextjs.org/docs/routing/linking-and-navigating#invalidating-the-cache
+        router.refresh()
+      } catch (error: any) {
+        toast.error(error.message || 'Something went wrong', {
+          id: toastMemeId,
+        })
+      }
+      setIsDisabled(false)
     }
   }
 

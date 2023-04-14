@@ -5,7 +5,7 @@ import AuthContext from '@/app/auth/AuthContext'
 import Providers from '@/app/providers'
 import './globals.css'
 import Nav from './Nav'
-import QueryWrapper from './QueryWrapper'
+import ToasterClient from '@/app/ToasterClient'
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -31,16 +31,14 @@ export default function RootLayout({ children }: Props) {
       <body
         className={`m-auto max-w-3xl px-4 ${roboto.variable} bg-gray-200 dark:bg-gray-800`}
       >
-        <QueryWrapper>
-          <AuthContext>
-            <Providers>
-              {/* @ts-expect-error Server Component */}
-              <Nav />
-              {children}
-            </Providers>
-          </AuthContext>
-        </QueryWrapper>
-
+        <ToasterClient />
+        <AuthContext>
+          <Providers>
+            {/* @ts-expect-error Server Component */}
+            <Nav />
+            {children}
+          </Providers>
+        </AuthContext>
         <Analytics />
       </body>
     </html>
