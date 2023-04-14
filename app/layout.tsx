@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import { Roboto } from 'next/font/google'
-import AuthContext from '@/app/auth/AuthContext'
 import Providers from '@/app/providers'
 import './globals.css'
 import Nav from './Nav'
@@ -32,13 +31,11 @@ export default function RootLayout({ children }: Props) {
         className={`m-auto max-w-3xl px-4 ${roboto.variable} bg-gray-200 dark:bg-gray-800`}
       >
         <ToasterClient />
-        <AuthContext>
-          <Providers>
-            {/* @ts-expect-error Server Component */}
-            <Nav />
-            {children}
-          </Providers>
-        </AuthContext>
+        <Providers>
+          {/* @ts-expect-error Server Component */}
+          <Nav />
+          {children}
+        </Providers>
         <Analytics />
       </body>
     </html>
