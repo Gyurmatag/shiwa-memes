@@ -14,6 +14,8 @@
    GOOGLE_CLIENT_SECRET="google_client_secret"
    CLOUDINARY_CLOUD_NAME="cloudinary_cloud_name"
    CLOUDINARY_API_KEY="cloudinary_api_key"
+   STRIPE_SECRET_KEY="stripe_secret_key"
+   STRIPE_ENDPOINT_SECRET="stripe_endpoint_secret"
    CLOUDINARY_API_SECRET="cloudinary_api_secret"
    AUTH_SECRET="auth_secret"
 ```

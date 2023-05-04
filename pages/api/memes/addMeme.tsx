@@ -40,8 +40,6 @@ export default async function handler(
       const title: string = fields.title
       const imgFile: any = files?.imgFile
 
-      console.log(imgFile.filepath)
-
       const prismaUser = await prisma.user.findUnique({
         where: { email: session.user?.email || '' },
       })
