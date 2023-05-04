@@ -39,9 +39,9 @@ const ThemeRadioInput = ({
         htmlFor={`${name}-option`}
         className="block cursor-pointer select-none rounded-xl p-3 text-center peer-checked:bg-shiwa-purple peer-checked:font-bold peer-checked:text-white md:p-2"
       >
-        {isDarkMode && <CiDark size="30" />}
-        {isLightMode && <BsLightbulb size="30" />}
-        {isSystemMode && <FiMonitor size="30" />}
+        {isDarkMode && <CiDark size="25" />}
+        {isLightMode && <BsLightbulb size="25" />}
+        {isSystemMode && <FiMonitor size="25" />}
       </label>
     </div>
   )
