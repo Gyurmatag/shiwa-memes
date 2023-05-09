@@ -7,7 +7,7 @@
 ```javascript
    DATABASE_URL="connection_url"
 ```
-3. Make a `.env.local` file with your Google API credentials, [Cloudinary](https://cloudinary.com/)  API credentials and AUTH_SECRET. The file shoud look like this:
+3. Make a `.env.local` file with your Google API credentials, [Cloudinary](https://cloudinary.com/) API credentials, Stripe API credentials and AUTH_SECRET. The file shoud look like this:
 ```javascript
    NEXT_PUBLIC_APP_URL="http://localhost:3000"
    GOOGLE_CLIENT_ID="google_client_id"
