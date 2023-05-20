@@ -8,7 +8,6 @@ import { STRIPE_API_VERSION } from '@/config'
 const adapter = PrismaAdapter(prisma)
 
 export const authOptions = {
-  // Configure one or more authentication providers
   adapter: adapter,
   secret: process.env.AUTH_SECRET,
   providers: [
