@@ -1,5 +1,6 @@
 'use client'
 
+import toast from 'react-hot-toast'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { LikeType } from '@/app/types/Like'
 import { signIn } from 'next-auth/react'
@@ -23,7 +24,7 @@ const postLike = async (memeId: string) => {
       body: JSON.stringify({ memeId }),
     },
   )
-  return response.json()
+  return response
 }
 
 export default function LikeMeme({ memeId, likes, user }: LikeMemeProps) {
@@ -49,7 +50,15 @@ export default function LikeMeme({ memeId, likes, user }: LikeMemeProps) {
         setIsLiked(true)
         setLikeCount(likeCount + 1)
       }
-      await postLike(memeId)
+      const likeResponse = await postLike(memeId)
+
+      if (!likeResponse.ok) {
+        const likeResponseJson = await likeResponse.json()
+        toast.error(
+          likeResponseJson.message || 'Something went wrong. Try again!',
+        )
+      }
+
       router.refresh()
     } else {
       signIn()
