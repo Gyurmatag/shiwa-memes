@@ -59,7 +59,7 @@ export default async (
           },
           data: {
             stripeSubId: '',
-            currentSubPlan: 'FREE',
+            currentSubPlan: 'MONTHLY_FREE',
           },
         })
         break
