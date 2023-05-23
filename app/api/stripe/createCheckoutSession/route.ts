@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth'
 import Stripe from 'stripe'
-import { authOptions } from '@/lib/auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { PRICE_IDS, STRIPE_API_VERSION } from '@/config'
 import { NextResponse } from 'next/server'
 

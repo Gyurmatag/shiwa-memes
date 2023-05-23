@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth'
 import cloudinary from 'cloudinary'
-import { authOptions } from '@/lib/auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import prisma from '../../../../prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 

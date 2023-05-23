@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth'
 import Stripe from 'stripe'
 import { STRIPE_API_VERSION } from '@/config'
 import { NextResponse } from 'next/server'
-import { authOptions } from '@/lib/auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 export async function DELETE(req: Request, { params }: any) {
   console.log('delete')
