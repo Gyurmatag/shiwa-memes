@@ -1,29 +1,38 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
 import Stripe from 'stripe'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import { authOptions } from '@/lib/auth'
 import { PRICE_IDS, STRIPE_API_VERSION } from '@/config'
+import { NextResponse } from 'next/server'
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+export async function POST(req: Request) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: STRIPE_API_VERSION,
   })
 
-  const session = await getServerSession(req, res, authOptions)
+  const session = await getServerSession(authOptions)
 
   if (!session?.user) {
-    return res.status(401).json({
-      error: {
-        code: 'no-access',
-        message: 'You are not signed in.',
+    return NextResponse.json(
+      {
+        error: {
+          code: 'no-access',
+          message: 'You are not signed in.',
+        },
       },
-    })
+      { status: 401 },
+    )
   }
 
-  const subType: string = req.body.subType
+  const { subType } = await req.json()
+
+  if (!session?.user) {
+    return NextResponse.json(
+      {
+        message: 'You must provide a price subtype!',
+      },
+      { status: 400 },
+    )
+  }
 
   const checkoutSession = await stripe.checkout.sessions.create({
     mode: 'subscription',
@@ -45,11 +54,17 @@ export default async function handler(
   })
 
   if (!checkoutSession.url) {
-    return res.status(500).json({
-      code: 'stripe-error',
-      error: 'Could not create checkout session',
-    })
+    return NextResponse.json(
+      {
+        code: 'stripe-error',
+        error: 'Could not create checkout session',
+      },
+      { status: 500 },
+    )
   }
 
-  return res.status(200).json({ redirectUrl: checkoutSession.url })
+  return NextResponse.json(
+    { redirectUrl: checkoutSession.url },
+    { status: 201 },
+  )
 }

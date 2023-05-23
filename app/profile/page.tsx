@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import ThemeSelector from '@/app/profile/theme/ThemeSelector'
 import Link from 'next/link'

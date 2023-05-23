@@ -1,23 +1,25 @@
-import prisma from '../../../prisma/client'
-import { authOptions } from '../auth/[...nextauth]'
+import prisma from '../../../../prisma/client'
+import { authOptions } from '@/lib/auth'
 import { getServerSession } from 'next-auth'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest, NextResponse } from 'next/server'
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  const session = await getServerSession(req, res, authOptions)
+export async function POST(req: NextRequest) {
+  const session = await getServerSession(authOptions)
   if (!session) {
-    return res.status(401).json({ message: 'Please sign in to like a meme.' })
+    return NextResponse.json(
+      { message: 'Please sign in to like a meme.' },
+      { status: 401 },
+    )
   }
   const prismaUser = await prisma.user.findUnique({
     where: { email: session?.user?.email as string },
   })
 
+  const body = await req.json()
+
   const like = await prisma.like.findFirst({
     where: {
-      memeId: req.body.memeId,
+      memeId: body.memeId,
       userId: prismaUser?.id,
     },
   })
@@ -54,29 +56,35 @@ export default async function handler(
         (!subPlan && likesCount >= 1) ||
         (subPlan === 'MONTHLY_PLUS' && likesCount >= 10)
       ) {
-        res.status(403).json({
-          message: 'You have reached your meme like limit for this period.',
-        })
+        return NextResponse.json(
+          {
+            message: 'You have reached your meme like limit for this period.',
+          },
+          { status: 403 },
+        )
       } else {
         if (!like) {
           const result = await prisma.like.create({
             data: {
-              memeId: req.body.memeId as string,
+              memeId: body.memeId as string,
               userId: prismaUser?.id as string,
             },
           })
-          res.status(201).json(result)
+          return NextResponse.json(result, { status: 201 })
         } else {
           const result = await prisma.like.delete({
             where: {
               id: like.id,
             },
           })
-          res.status(200).json(result)
+          return NextResponse.json(result, { status: 200 })
         }
       }
     } catch (err) {
-      res.status(403).json({ err: 'Error has happened while liking a meme' })
+      return NextResponse.json(
+        { err: 'Error has happened while liking a meme' },
+        { status: 400 },
+      )
     }
   }
 }

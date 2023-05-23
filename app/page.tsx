@@ -1,7 +1,7 @@
 import Meme from '@/app/meme/Meme'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { MemeType } from '@/app/types/Meme'
+import { authOptions } from '@/lib/auth'
 
 const allMemes = async () => {
   const response = await fetch(
