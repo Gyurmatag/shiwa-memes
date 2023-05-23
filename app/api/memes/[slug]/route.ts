@@ -1,8 +1,8 @@
 import prisma from '../../../../prisma/client'
 import { NextResponse } from 'next/server'
 
-export async function GET(req: Request) {
-  const { id } = await req.json()
+export async function GET(req: Request, { params }: any) {
+  const id = params.slug
   if (!id) {
     return NextResponse.json({ message: 'Meme ID required' }, { status: 400 })
   }

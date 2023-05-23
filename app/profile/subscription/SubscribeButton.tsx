@@ -17,7 +17,7 @@ export default async function SubscribeButton({
   const goToCheckout = async () => {
     const stripeApiAction =
       subType === 'MONTHLY_FREE'
-        ? `deleteSubscription?id=${stripeSubId}`
+        ? `deleteSubscription/${stripeSubId}`
         : 'createCheckoutSession'
     const stripeApiMethod = subType === 'MONTHLY_FREE' ? 'DELETE' : 'POST'
     try {
@@ -38,7 +38,7 @@ export default async function SubscribeButton({
       if (redirectUrl) {
         window.location.assign(redirectUrl)
       } else if (status) {
-        router.refresh()
+        window.location.assign('/profile/subscription')
       } else {
         console.log('Error creating checkout session')
       }

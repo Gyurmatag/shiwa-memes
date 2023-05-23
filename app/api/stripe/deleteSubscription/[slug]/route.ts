@@ -4,7 +4,8 @@ import { STRIPE_API_VERSION } from '@/config'
 import { NextResponse } from 'next/server'
 import { authOptions } from '@/lib/auth'
 
-export async function DELETE(req: Request) {
+export async function DELETE(req: Request, { params }: any) {
+  console.log('delete')
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: STRIPE_API_VERSION,
   })
@@ -23,7 +24,7 @@ export async function DELETE(req: Request) {
     )
   }
 
-  const { subscriptionId } = await req.json()
+  const subscriptionId = params.slug
 
   const deleteResponse = await stripe.subscriptions.del(
     subscriptionId as string,

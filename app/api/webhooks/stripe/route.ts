@@ -1,38 +1,27 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { buffer } from 'micro'
+import { headers } from 'next/headers'
 import Stripe from 'stripe'
 import prisma from '@/prisma/client'
 import { getStripeSubTier } from '@/utils/stripe'
 import { STRIPE_API_VERSION } from '@/config'
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-}
-
-export default async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-): Promise<void> => {
+export async function POST(req: Request) {
   try {
-    const requestBuffer = await buffer(req)
-    const sig = req.headers['stripe-signature'] as string
+    const body = await req.text()
+    const signature = headers().get('Stripe-Signature') as string
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
       apiVersion: STRIPE_API_VERSION,
     })
 
-    let event
+    let event: Stripe.Event
 
     try {
       event = stripe.webhooks.constructEvent(
-        requestBuffer.toString(),
-        sig,
+        body,
+        signature,
         process.env.STRIPE_ENDPOINT_SECRET as string,
       )
-    } catch (err: any) {
-      console.log(`⚠️  Webhook signature verification failed.`, err.message)
-      return res.status(400).send(`Webhook signature verification failed.`)
+    } catch (error: any) {
+      return new Response(`Webhook Error: ${error.message}`, { status: 400 })
     }
 
     switch (event.type) {
@@ -68,9 +57,8 @@ export default async (
         console.log(`Unhandled event type ${event.type}`)
     }
 
-    res.status(200).json({ received: true })
+    return new Response(null, { status: 200 })
   } catch (err) {
-    console.log(err)
-    res.status(500).end()
+    return new Response(null, { status: 500 })
   }
 }
