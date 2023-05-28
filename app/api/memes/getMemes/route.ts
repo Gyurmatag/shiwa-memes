@@ -1,7 +1,9 @@
 import prisma from '../../../../prisma/client'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
-export async function GET() {
+export async function GET(req: Request, { params }: any) {
+  // TODO: quick fix, it renders it SSR this way, but in the future we need the request here
+  const request = await req.json()
   try {
     const data = await prisma.meme.findMany({
       include: {
