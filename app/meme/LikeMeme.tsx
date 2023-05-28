@@ -14,17 +14,13 @@ type LikeMemeProps = {
 }
 
 const postLike = async (memeId: string) => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/memes/addLike`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ memeId }),
+  return await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/memes/addLike`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  )
-  return response
+    body: JSON.stringify({ memeId }),
+  })
 }
 
 export default function LikeMeme({ memeId, likes, user }: LikeMemeProps) {
@@ -58,8 +54,6 @@ export default function LikeMeme({ memeId, likes, user }: LikeMemeProps) {
           likeResponseJson.message || 'Something went wrong. Try again!',
         )
       }
-
-      router.refresh()
     } else {
       signIn()
     }
