@@ -6,9 +6,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 const allMemes = async () => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URL}/api/memes/getMemes`,
-    {
-      cache: 'no-store',
-    },
+    { next: { revalidate: 30 } },
   )
   return response.json()
 }
