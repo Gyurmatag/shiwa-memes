@@ -24,6 +24,9 @@ const postMeme = async ({
     },
   )
   if (response.ok) {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/revalidate`,
+    )
     return response.json()
   }
   return response.json().then((text) => {
@@ -123,7 +126,7 @@ export default function AddMeme() {
       <div className="flex justify-center">
         <button
           disabled={isDisabled}
-          className="rounded-xl bg-shiwa-purple py-2 px-6 text-sm text-white hover:opacity-90 disabled:opacity-25 dark:bg-gray-500 dark:hover:opacity-80"
+          className="rounded-xl bg-shiwa-purple px-6 py-2 text-sm text-white hover:opacity-90 disabled:opacity-25 dark:bg-gray-500 dark:hover:opacity-80"
           type="submit"
         >
           Create meme
