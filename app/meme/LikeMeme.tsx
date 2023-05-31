@@ -53,6 +53,12 @@ export default function LikeMeme({ memeId, likes, user }: LikeMemeProps) {
         toast.error(
           likeResponseJson.message || 'Something went wrong. Try again!',
         )
+      } else {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_APP_URL}/api/revalidate`,
+        )
+        router.refresh()
+        return response.json()
       }
     } else {
       signIn()
