@@ -11,19 +11,10 @@ type LikeMemeProps = {
   memeId: string
   likes: LikeType[]
   user: any
+  postLike: () => any
 }
 
-const postLike = async (memeId: string) => {
-  return await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/memes/addLike`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ memeId }),
-  })
-}
-
-export default function LikeMeme({ memeId, likes, user }: LikeMemeProps) {
+export default function LikeMeme({ likes, user, postLike }: LikeMemeProps) {
   const router = useRouter()
 
   const [likeCount, setLikeCount] = useState(0)
@@ -46,19 +37,12 @@ export default function LikeMeme({ memeId, likes, user }: LikeMemeProps) {
         setIsLiked(true)
         setLikeCount(likeCount + 1)
       }
-      const likeResponse = await postLike(memeId)
+      const likeResponse = await postLike()
 
-      if (!likeResponse.ok) {
-        const likeResponseJson = await likeResponse.json()
-        toast.error(
-          likeResponseJson.message || 'Something went wrong. Try again!',
-        )
+      if (!likeResponse.memeId) {
+        toast.error(likeResponse.message || 'Something went wrong. Try again!')
       } else {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_APP_URL}/api/revalidate`,
-        )
         router.refresh()
-        return response.json()
       }
     } else {
       signIn()

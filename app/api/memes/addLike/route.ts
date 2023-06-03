@@ -1,21 +1,11 @@
 import prisma from '../../../../prisma/client'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
-
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions)
-  if (!session) {
-    return NextResponse.json(
-      { message: 'Please sign in to like a meme.' },
-      { status: 401 },
-    )
-  }
-  const prismaUser = await prisma.user.findUnique({
-    where: { email: session?.user?.email as string },
-  })
-
   const body = await req.json()
+
+  const prismaUser = await prisma.user.findUnique({
+    where: { email: body.userEmail as string },
+  })
 
   const like = await prisma.like.findFirst({
     where: {
