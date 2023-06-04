@@ -1,13 +1,14 @@
 import { headers } from 'next/headers'
 import Stripe from 'stripe'
+import { buffer } from 'node:stream/consumers'
 import prisma from '@/prisma/client'
 import { getStripeSubTier } from '@/utils/stripe'
 import { STRIPE_API_VERSION } from '@/config'
 
-export async function POST(req: Request) {
+export async function POST(req: any) {
   try {
-    const body = await req.text()
-    const signature = headers().get('Stripe-Signature') as string
+    const rawBody = await buffer(req.body)
+    const signature = req.headers.get('stripe-signature') as string
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
       apiVersion: STRIPE_API_VERSION,
     })
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
 
     try {
       event = stripe.webhooks.constructEvent(
-        body,
+        rawBody,
         signature,
         process.env.STRIPE_ENDPOINT_SECRET as string,
       )
