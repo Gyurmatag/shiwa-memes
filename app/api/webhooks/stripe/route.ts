@@ -1,4 +1,3 @@
-import { headers } from 'next/headers'
 import Stripe from 'stripe'
 import { buffer } from 'node:stream/consumers'
 import prisma from '@/prisma/client'
@@ -28,6 +27,7 @@ export async function POST(req: any) {
     switch (event.type) {
       case 'customer.subscription.created': {
         const subscription = event.data.object as Stripe.Subscription
+        console.log(subscription)
         await prisma.user.update({
           where: {
             stripeCustomerId: subscription.customer as string,
